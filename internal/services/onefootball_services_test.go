@@ -3,6 +3,7 @@ package services
 import (
 	"github.com/arjunajithtp/onefootball/internal/utils"
 	"github.com/arjunajithtp/onefootball/public/dtos/api/ofbapi"
+	"github.com/pborman/uuid"
 	"testing"
 )
 
@@ -11,19 +12,22 @@ type MockDownloader struct {
 	DownloadError    error
 }
 
-func TestDownloader_GetTeamDetails(t *testing.T) {
+func (d *MockDownloader) GetTeamDetails(_ int) (*ofbapi.OneFootBallTeamDetails, error) {
+	return d.DownloadResponse, d.DownloadError
+}
+
+func TestDownloader_GetAllPlayers(t *testing.T) {
 	testPlayer := ofbapi.Player{
-		FirstName: "Test",
-		LastName:  "Name",
-		Age:       27,
+		FirstName: uuid.New(),
+		LastName:  uuid.New(),
+		Age:       uuid.New(),
 	}
 
 	mock := MockDownloader{
 		DownloadResponse: &ofbapi.OneFootBallTeamDetails{
-			Code: 0,
 			Data: ofbapi.Data{
 				Team: ofbapi.Team{
-					Name: "Test Name",
+					Name: uuid.New(),
 					Players: []ofbapi.Player{
 						testPlayer,
 					},
@@ -33,7 +37,9 @@ func TestDownloader_GetTeamDetails(t *testing.T) {
 		DownloadError: nil,
 	}
 	d := Downloader{ofbDownloader: &mock}
-	_, err := d.GetTeamDetails()
-
+	mockRequiredList := map[string]bool{mock.DownloadResponse.Data.Team.Name: true}
+	testAllPlayers, testPlayerNames, err := d.GetAllPlayers(mockRequiredList)
 	utils.ShouldBeEqual(t, nil, err)
+	utils.ShouldBeEqual(t, 1, len(testAllPlayers))
+	utils.ShouldBeEqual(t, 1, len(testPlayerNames))
 }
