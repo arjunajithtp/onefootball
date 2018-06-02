@@ -1,21 +1,21 @@
 package services
 
 import (
+	"github.com/arjunajithtp/onefootball/internal/utils"
 	"github.com/arjunajithtp/onefootball/public/dtos/api/ofbapi"
 	"testing"
-	"github.com/arjunajithtp/onefootball/internal/utils"
 )
 
-type MockDownloader struct{
-	DownloadResponse	*ofbapi.OneFootBallTeamDetails
-	DownloadError		error
+type MockDownloader struct {
+	DownloadResponse *ofbapi.OneFootBallTeamDetails
+	DownloadError    error
 }
 
 func TestDownloader_GetTeamDetails(t *testing.T) {
 	testPlayer := ofbapi.Player{
 		FirstName: "Test",
-		LastName: "Name",
-		Age: 27,
+		LastName:  "Name",
+		Age:       27,
 	}
 
 	mock := MockDownloader{

@@ -1,8 +1,8 @@
 package utils
 
 import (
-"runtime"
-"testing"
+	"runtime"
+	"testing"
 )
 
 func ShouldBeEqual(t *testing.T, expected, actual interface{}) {
@@ -11,4 +11,3 @@ func ShouldBeEqual(t *testing.T, expected, actual interface{}) {
 		t.Fatalf("\nExp: %v\nGot: %v\nLocation: %s:%d", expected, actual, fn, line)
 	}
 }
-

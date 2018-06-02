@@ -1,13 +1,13 @@
 package ofb
 
 import (
-	"github.com/arjunajithtp/onefootball/public/dtos/api/ofbapi"
-	"net/http"
-	"fmt"
-	"strconv"
-	"io/ioutil"
 	"encoding/json"
+	"fmt"
+	"github.com/arjunajithtp/onefootball/public/dtos/api/ofbapi"
+	"io/ioutil"
 	"log"
+	"net/http"
+	"strconv"
 )
 
 type OneFootBall interface {
@@ -21,9 +21,9 @@ func (d *Downloader) GetTeamDetails(teamID int) (*ofbapi.OneFootBallTeamDetails,
 	client := &http.Client{}
 	req, err := http.NewRequest(
 		http.MethodGet,
-		"https://vintagemonster.onefootball.com/api/teams/en/" + strconv.Itoa(teamID) + ".json",
+		"https://vintagemonster.onefootball.com/api/teams/en/"+strconv.Itoa(teamID)+".json",
 		nil,
-		)
+	)
 	if err != nil {
 		return nil, fmt.Errorf("error while creating GET Method request for ofb: %v", err)
 	}

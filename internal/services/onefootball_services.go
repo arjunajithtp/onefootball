@@ -1,8 +1,8 @@
 package services
 
 import (
-	"github.com/arjunajithtp/onefootball/internal/adapters/onefootball"
 	"fmt"
+	"github.com/arjunajithtp/onefootball/internal/adapters/onefootball"
 	"log"
 )
 
@@ -11,13 +11,13 @@ type Downloader struct {
 }
 
 type TeamDetails struct {
-	Name	string
-	AllPlayerDetails	[]Player
+	Name             string
+	AllPlayerDetails []Player
 }
 
 type Player struct {
-	Age			string
-	TeamList	string
+	Age      string
+	TeamList string
 }
 
 func GetPlayerDetails(in ofb.OneFootBall, requiredTeams map[string]bool) (map[string]*Player, []string, error) {
@@ -43,19 +43,19 @@ func (d *Downloader) GetAllPlayers(requiredTeams map[string]bool) (map[string]*P
 			return nil, nil, fmt.Errorf("error while trying to get team details from ofb: %v", err)
 		}
 
-		if teamData == nil || !requiredTeams[teamData.Data.Team.Name]{
+		if teamData == nil || !requiredTeams[teamData.Data.Team.Name] {
 			continue
 		}
 
-		log.Printf("received details of team %v with id %v", teamData.Data.Team.Name, i)
-		for _, teamPlayer := range teamData.Data.Team.Players{
+		log.Printf("Found details of team %v with team_id %v...", teamData.Data.Team.Name, i)
+		for _, teamPlayer := range teamData.Data.Team.Players {
 			fullName := teamPlayer.FirstName + " " + teamPlayer.LastName
 			if playersMap[fullName] != nil {
 				playersMap[fullName].TeamList += ", " + teamData.Data.Team.Name
 				continue
 			}
 			playersMap[fullName] = &Player{
-				Age: teamPlayer.Age,
+				Age:      teamPlayer.Age,
 				TeamList: teamData.Data.Team.Name,
 			}
 			playerNames = append(playerNames, fullName)
